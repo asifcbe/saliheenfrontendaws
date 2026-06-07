@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiX, FiTrash2, FiShoppingBag } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
-import { getImageUrl } from '../utils/api';
+import { getImageUrl, handleImageError } from '../utils/api';
 
 export default function CartSidebar() {
   const { items, removeItem, updateQty, subtotal, isOpen, setIsOpen, itemCount } = useCart();
@@ -72,7 +72,7 @@ export default function CartSidebar() {
                     src={getImageUrl(item.image)}
                     alt={item.name}
                     style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: 'var(--radius)', border: '1px solid var(--black-border)' }}
-                    onError={e => e.target.src = 'https://via.placeholder.com/60x60?text=🌸'}
+                    onError={handleImageError}
                   />
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text-primary)', marginBottom: '0.2rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>

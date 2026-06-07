@@ -4,69 +4,34 @@ export default function RefundCancellation() {
   return (
     <div style={{ paddingTop: '70px' }}>
       <div className="page-header">
-        <h1>Refund & Cancellation Policy</h1>
+        <h1>Refund &amp; Cancellation Policy</h1>
         <p>Your satisfaction is our priority</p>
       </div>
       <div className="container">
         <div className="policy-content">
-          <h2>Order Cancellation</h2>
-          <h3>Cancellation by Customer</h3>
-          <p>You may cancel your order within 24 hours of placing it, provided the order has not been dispatched. To cancel:</p>
-          <ul>
-            <li>Contact us at <a href="mailto:support@saliheenperfumes.com">support@saliheenperfumes.com</a></li>
-            <li>Provide your Order ID and reason for cancellation</li>
-            <li>Cancellations are not possible once the order has been shipped</li>
-          </ul>
+          <h2>Introduction</h2>
+          <p>At Saliheen Perfumes, we strive to ensure your complete satisfaction with every purchase. Please read our Refund &amp; Cancellation Policy carefully to understand your rights and responsibilities.</p>
 
-          <h3>Cancellation by Saliheen Perfumes</h3>
-          <p>We reserve the right to cancel orders in cases of:</p>
-          <ul>
-            <li>Product unavailability or stock issues</li>
-            <li>Suspected fraudulent transactions</li>
-            <li>Delivery address issues</li>
-            <li>Payment verification failure</li>
-          </ul>
-          <p>In such cases, you will receive a full refund within 5–7 business days.</p>
+          <h2>No Cancellations After Ordering</h2>
+          <p>Once an order is placed, it <strong>cannot be cancelled</strong>. Please review your order carefully before completing the purchase.</p>
 
-          <h2>Return Policy</h2>
-          <p>Due to the nature of our products (perfumes and attars), we have a limited return policy:</p>
+          <h2>Refund Policy</h2>
+          <h3>Damaged or Defective Items</h3>
+          <p>If you receive a damaged or defective item, you are eligible for a full refund, provided the item is returned within <strong>7 days</strong> of the order date.</p>
 
-          <h3>Eligible for Return</h3>
-          <ul>
-            <li>Damaged or defective products received</li>
-            <li>Wrong product delivered</li>
-            <li>Tampered or unsealed products</li>
-          </ul>
-
-          <h3>Not Eligible for Return</h3>
-          <ul>
-            <li>Opened or used products (unless defective)</li>
-            <li>Products damaged due to misuse or mishandling</li>
-            <li>Products returned after 7 days of delivery</li>
-            <li>Change of mind or personal preference</li>
-          </ul>
+          <h3>Non-Damaged Items</h3>
+          <p>Refunds are <strong>not available</strong> for non-damaged items or items returned after 7 days.</p>
 
           <h2>Refund Process</h2>
-          <h3>For Prepaid Orders (Razorpay)</h3>
-          <p>Refunds will be credited to the original payment method within 5–7 business days after approval.</p>
-
-          <h3>For COD Orders</h3>
-          <p>Refunds for Cash on Delivery orders will be processed via bank transfer. Please provide your bank details when initiating the refund request.</p>
-
-          <h2>How to Initiate a Refund</h2>
           <ol>
-            <li>Contact us within 7 days of delivery at <a href="mailto:refund@saliheenperfumes.com">refund@saliheenperfumes.com</a></li>
-            <li>Provide your Order ID and photos of the damaged/wrong product</li>
-            <li>Our team will review and respond within 2 business days</li>
-            <li>Approved returns: we will arrange a pickup at no extra cost</li>
-            <li>Refund will be processed upon receiving the returned product</li>
+            <li>Contact our support team at <a href="mailto:saliheenperfumes@gmail.com">saliheenperfumes@gmail.com</a> within 7 days of receiving the damaged item.</li>
+            <li>Provide your order number, photos of the damaged item, and a brief description of the issue.</li>
+            <li>Once your request is approved, you will receive instructions on how to return the item.</li>
+            <li>After we receive and inspect the returned item, your refund will be processed within <strong>5-7 business days</strong>.</li>
           </ol>
 
-          <h2>Exchange Policy</h2>
-          <p>Exchanges are available for damaged or wrong products, subject to stock availability. If the requested item is out of stock, a full refund will be issued.</p>
-
           <h2>Contact Us</h2>
-          <p>For refund or cancellation requests: <a href="mailto:support@saliheenperfumes.com">support@saliheenperfumes.com</a></p>
+          <p>If you have any questions about our Refund &amp; Cancellation Policy, please contact us at <a href="mailto:saliheenperfumes@gmail.com">saliheenperfumes@gmail.com</a></p>
         </div>
       </div>
     </div>

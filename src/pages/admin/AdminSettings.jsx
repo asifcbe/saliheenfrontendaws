@@ -20,7 +20,7 @@ export default function AdminSettings() {
   const [settings, setSettings] = useState({
     storeName: '', storeTagline: '', storeEmail: '', storePhone: '',
     storeAddress: '', codEnabled: true, razorpayKeyId: '', metaDescription: '',
-    logo: '', shippingCharge: 0, theme: 'midnight-gold',
+    logo: '', shippingCharge: 0, codCharge: 100, theme: 'midnight-gold',
     socialLinks: { instagram: '', facebook: '', whatsapp: '', youtube: '' }
   });
   const [logo, setLogo] = useState(null);
@@ -39,6 +39,7 @@ export default function AdminSettings() {
         metaDescription: data.metaDescription || '',
         logo: data.logo || '',
         shippingCharge: data.shippingCharge ?? 0,
+        codCharge: data.codCharge ?? 100,
         theme: data.theme || 'midnight-gold',
         socialLinks: data.socialLinks || { instagram: '', facebook: '', whatsapp: '', youtube: '' }
       });
@@ -170,14 +171,25 @@ export default function AdminSettings() {
               <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>Update Razorpay Secret in <code style={{ color: 'var(--gold)', background: 'rgba(201,168,76,0.1)', padding: '1px 5px', borderRadius: '2px' }}>backend/.env</code></p>
             </div>
             <div className="form-group">
-              <label className="form-label">Shipping Charge (₹)</label>
+              <label className="form-label">Shipping Charge — Online (₹)</label>
               <input
                 type="number" name="shippingCharge"
                 value={settings.shippingCharge} onChange={handleChange}
                 className="form-control" min="0" placeholder="0"
               />
               <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>
-                Set to <strong style={{ color: 'var(--gold)' }}>0</strong> for free shipping on all orders
+                Applied to online-paid orders. Set to <strong style={{ color: 'var(--gold)' }}>0</strong> for free shipping
+              </p>
+            </div>
+            <div className="form-group">
+              <label className="form-label">COD Charge (₹)</label>
+              <input
+                type="number" name="codCharge"
+                value={settings.codCharge} onChange={handleChange}
+                className="form-control" min="0" placeholder="100"
+              />
+              <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>
+                Extra fee added to Cash on Delivery orders
               </p>
             </div>
             <div style={{ gridColumn: '1 / -1' }}>

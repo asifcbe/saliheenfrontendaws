@@ -3,7 +3,7 @@ import { useReactToPrint } from 'react-to-print';
 import { FiSearch, FiEye, FiPrinter, FiX, FiTrash2, FiAlertTriangle, FiPackage } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import API from '../../utils/api';
-import { getImageUrl } from '../../utils/api';
+import { getImageUrl, handleImageError } from '../../utils/api';
 
 const STATUS_OPTIONS = ['placed', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'];
 const PAYMENT_STATUS = ['pending', 'paid', 'failed', 'refunded'];
@@ -366,7 +366,7 @@ export default function AdminOrders() {
                 <p style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.6rem' }}>Ordered Items</p>
                 {selectedOrder.items?.map((item, i) => (
                   <div key={i} style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', background: 'var(--black-surface)', borderRadius: 'var(--radius)', padding: '0.75rem', marginBottom: '0.5rem', border: '1px solid var(--black-border)' }}>
-                    <img src={getImageUrl(item.image)} alt={item.name} style={{ width: '44px', height: '44px', objectFit: 'cover', borderRadius: 'var(--radius)', flexShrink: 0 }} onError={e => e.target.src = 'https://via.placeholder.com/44?text=🌸'} />
+                    <img src={getImageUrl(item.image)} alt={item.name} style={{ width: '44px', height: '44px', objectFit: 'cover', borderRadius: 'var(--radius)', flexShrink: 0 }} onError={handleImageError} />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <p style={{ fontWeight: 600, fontSize: '0.88rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</p>
                       <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'capitalize' }}>{item.type} • {item.ml}ml × {item.quantity}</p>

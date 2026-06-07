@@ -319,7 +319,7 @@ export default function TrackOrder() {
               value={query}
               onChange={e => setQuery(e.target.value)}
               className="form-control"
-              placeholder={mode === 'id' ? 'e.g. SAL-1234567890-0001' : 'e.g. 9876543210'}
+              placeholder={mode === 'id' ? 'e.g. 260600001' : 'e.g. 9876543210'}
               style={{ flex: 1, fontSize: '0.9rem' }}
               autoFocus
             />

@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 import { FiCheckCircle, FiPrinter, FiShoppingBag } from 'react-icons/fi';
 import API from '../utils/api';
-import { getImageUrl } from '../utils/api';
+import { getImageUrl, handleImageError } from '../utils/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 export default function OrderConfirmation() {
@@ -108,7 +108,7 @@ export default function OrderConfirmation() {
                 paddingBottom: '1rem', marginBottom: '1rem',
                 borderBottom: i < order.items.length - 1 ? '1px solid var(--black-border)' : 'none'
               }}>
-                <img src={getImageUrl(item.image)} alt={item.name} style={{ width: '56px', height: '56px', objectFit: 'cover', borderRadius: 'var(--radius)' }} onError={e => e.target.src='https://via.placeholder.com/56?text=🌸'} />
+                <img src={getImageUrl(item.image)} alt={item.name} style={{ width: '56px', height: '56px', objectFit: 'cover', borderRadius: 'var(--radius)' }} onError={handleImageError} />
                 <div style={{ flex: 1 }}>
                   <p style={{ fontWeight: 600, marginBottom: '0.2rem' }}>{item.name}</p>
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'capitalize' }}>{item.type} • {item.ml}ml × {item.quantity}</p>

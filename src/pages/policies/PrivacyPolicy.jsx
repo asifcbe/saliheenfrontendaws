@@ -5,67 +5,49 @@ export default function PrivacyPolicy() {
     <div style={{ paddingTop: '70px' }}>
       <div className="page-header">
         <h1>Privacy Policy</h1>
-        <p>Last updated: January 2024</p>
+        <p>How we protect and handle your information</p>
       </div>
       <div className="container">
         <div className="policy-content">
           <h2>Introduction</h2>
-          <p>At Saliheen Perfumes, we are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or make a purchase.</p>
+          <p>At Saliheen Perfumes, we are committed to protecting your privacy. This Privacy Policy outlines how we collect, use, and safeguard your personal information when you visit our website or make a purchase from us.</p>
 
           <h2>Information We Collect</h2>
           <h3>Personal Information</h3>
-          <p>We may collect personal information that you voluntarily provide when you:</p>
-          <ul>
-            <li>Place an order on our website</li>
-            <li>Register for an account</li>
-            <li>Contact us for support</li>
-            <li>Subscribe to our newsletter</li>
-          </ul>
-          <p>This information may include your name, email address, phone number, shipping address, and payment information.</p>
+          <p>We may collect personal details such as your name, email address, phone number, and shipping address.</p>
 
-          <h3>Automatically Collected Information</h3>
-          <p>When you visit our website, we automatically collect certain information about your device, including information about your web browser, IP address, time zone, and some of the cookies installed on your device.</p>
+          <h3>Payment Information</h3>
+          <p>When you make a purchase, we collect payment information such as credit/debit card details or other payment method details.</p>
+
+          <h3>Technical Information</h3>
+          <p>We may collect technical data such as your IP address, browser type, and operating system when you visit our website.</p>
 
           <h2>How We Use Your Information</h2>
-          <p>We use the information we collect to:</p>
           <ul>
-            <li>Process and fulfill your orders</li>
-            <li>Send order confirmations and updates</li>
-            <li>Respond to your inquiries and provide customer support</li>
-            <li>Improve our website and product offerings</li>
-            <li>Send promotional communications (with your consent)</li>
-            <li>Comply with legal obligations</li>
-          </ul>
-
-          <h2>Payment Information</h2>
-          <p>All payment transactions are processed through Razorpay, a secure payment gateway. We do not store your complete credit/debit card information on our servers. Razorpay's privacy policy governs the handling of your payment data.</p>
-
-          <h2>Data Sharing</h2>
-          <p>We do not sell, trade, or rent your personal information to third parties. We may share your information with:</p>
-          <ul>
-            <li>Delivery partners to fulfill your orders</li>
-            <li>Payment processors to complete transactions</li>
-            <li>Service providers who assist in operating our website</li>
-            <li>Law enforcement when required by law</li>
+            <li>To process and fulfill your orders.</li>
+            <li>To communicate with you about your orders.</li>
+            <li>To improve our website and services.</li>
+            <li>To send promotional offers and updates (if you opt-in).</li>
           </ul>
 
           <h2>Data Security</h2>
-          <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the internet is 100% secure.</p>
+          <p>We use industry-standard security measures to protect your personal information from unauthorized access, alteration, or disclosure. However, no method of transmission over the internet is 100% secure.</p>
+
+          <h2>Third-Party Services</h2>
+          <p>We may use third-party services (e.g., payment processors, shipping providers) to facilitate our services. These third parties have access to your information only to perform specific tasks on our behalf and are obligated not to disclose or use it for other purposes.</p>
 
           <h2>Your Rights</h2>
-          <p>You have the right to:</p>
           <ul>
-            <li>Access the personal information we hold about you</li>
-            <li>Request correction of inaccurate information</li>
-            <li>Request deletion of your personal information</li>
-            <li>Opt out of marketing communications</li>
+            <li>You have the right to access, update, or delete your personal information.</li>
+            <li>You can opt-out of receiving promotional emails at any time.</li>
+            <li>You can request a copy of the personal data we hold about you.</li>
           </ul>
 
-          <h2>Cookies</h2>
-          <p>We use cookies to enhance your browsing experience, analyze website traffic, and personalize content. You can control cookie settings through your browser preferences.</p>
+          <h2>Changes to This Policy</h2>
+          <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page, and we will notify you of significant changes via email or a notice on our website.</p>
 
           <h2>Contact Us</h2>
-          <p>If you have questions about this Privacy Policy, please contact us at <a href="mailto:privacy@saliheenperfumes.com">privacy@saliheenperfumes.com</a></p>
+          <p>If you have any questions about this Privacy Policy, please contact us at <a href="mailto:saliheenperfumes@gmail.com">saliheenperfumes@gmail.com</a></p>
         </div>
       </div>
     </div>

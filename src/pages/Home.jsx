@@ -6,7 +6,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FiArrowRight, FiMapPin, FiPhone, FiClock } from 'react-icons/fi';
 import API from '../utils/api';
-import { getImageUrl } from '../utils/api';
+import { getImageUrl, handleImageError } from '../utils/api';
 import ProductCard from '../components/ProductCard';
 import CouponTimer from '../components/CouponTimer';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -178,7 +178,7 @@ export default function Home() {
               <div key={i}>
                 <div style={{ position: 'relative', height: 'calc(100vh - 70px)', minHeight: '500px', overflow: 'hidden' }}>
                   <img src={getImageUrl(img.url)} alt={img.alt || `Slide ${i + 1}`}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={handleImageError} />
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.7) 100%)' }} />
                   {(img.caption || img.subcaption) && (
                     <div style={{ position: 'absolute', bottom: '10%', left: 0, right: 0, textAlign: 'center', padding: '0 2rem' }}>

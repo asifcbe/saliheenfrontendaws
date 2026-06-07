@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { FiShoppingBag, FiArrowLeft, FiMinus, FiPlus } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import API from '../utils/api';
-import { getImageUrl } from '../utils/api';
+import { getImageUrl, handleImageError } from '../utils/api';
 import { useCart } from '../context/CartContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 
@@ -43,15 +43,15 @@ export default function ProductDetail() {
 
   return (
     <div style={{ paddingTop: '70px' }}>
-      <div className="container" style={{ padding: '2rem 1.5rem' }}>
+      <div className="container product-detail" style={{ padding: '2rem 1.5rem' }}>
         <Link to="/shop" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)', textDecoration: 'none', marginBottom: '2rem', fontSize: '0.85rem' }}>
           <FiArrowLeft size={14} /> Back to Shop
         </Link>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'start' }}>
+        <div className="product-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'start' }}>
           {/* Images */}
-          <div>
-            <div style={{
+          <div className="product-gallery">
+            <div className="product-main-image" style={{
               borderRadius: 'var(--radius-lg)', overflow: 'hidden',
               background: 'var(--black-surface)', border: '1px solid var(--black-border)',
               aspectRatio: '3/4', marginBottom: '1rem'
@@ -60,7 +60,7 @@ export default function ProductDetail() {
                 src={getImageUrl(product.images?.[activeImg])}
                 alt={product.name}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                onError={e => e.target.src = 'https://via.placeholder.com/600x800?text=🌸'}
+                onError={handleImageError}
               />
             </div>
             {product.images?.length > 1 && (
@@ -72,7 +72,7 @@ export default function ProductDetail() {
                     border: `2px solid ${activeImg === i ? 'var(--gold)' : 'var(--black-border)'}`,
                     padding: 0, cursor: 'pointer', background: 'none'
                   }}>
-                    <img src={getImageUrl(img)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={getImageUrl(img)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={handleImageError} />
                   </button>
                 ))}
               </div>
@@ -80,7 +80,7 @@ export default function ProductDetail() {
           </div>
 
           {/* Details */}
-          <div>
+          <div className="product-info">
             <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
               <span className="badge badge-gold" style={{ textTransform: 'capitalize' }}>{product.type}</span>
               {product.featured && <span className="badge" style={{ background: 'rgba(201,168,76,0.2)', color: 'var(--gold-bright)', border: '1px solid var(--gold)' }}>Featured</span>}
@@ -143,7 +143,7 @@ export default function ProductDetail() {
             </div>
 
             {/* Quantity + Add to Cart */}
-            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            <div className="product-actions" style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
               <div className="qty-control">
                 <button onClick={() => setQuantity(q => Math.max(1, q - 1))}><FiMinus size={14} /></button>
                 <span style={{ padding: '0 16px' }}>{quantity}</span>
@@ -170,7 +170,27 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
-      <style>{`@media (max-width: 768px) { .product-grid { grid-template-columns: 1fr !important; } }`}</style>
+      <style>{`
+        /* Tablet: narrow the gap before stacking */
+        @media (max-width: 900px) {
+          .product-grid { gap: 2.5rem !important; }
+        }
+        /* Mobile: single column, image on top */
+        @media (max-width: 768px) {
+          .product-detail { padding: 1.25rem 1rem 2rem !important; }
+          .product-grid { grid-template-columns: 1fr !important; gap: 1.75rem !important; }
+          .product-main-image { aspect-ratio: 1/1 !important; margin-bottom: 0.75rem !important; }
+          .product-info p { font-size: 0.98rem !important; }
+          /* Quantity + Add to Cart stack full-width and stay reachable */
+          .product-actions { gap: 0.75rem !important; }
+          .product-actions .qty-control { width: 100%; justify-content: space-between; }
+          .product-actions .btn { width: 100%; min-width: 0 !important; flex: 1 1 100% !important; }
+        }
+        @media (max-width: 480px) {
+          .product-detail { padding: 1rem 0.9rem 1.75rem !important; }
+          .product-main-image { border-radius: var(--radius) !important; }
+        }
+      `}</style>
     </div>
   );
 }

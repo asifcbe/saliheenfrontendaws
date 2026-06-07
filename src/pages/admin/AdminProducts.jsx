@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FiPlus, FiEdit2, FiTrash2, FiX, FiImage } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import API from '../../utils/api';
-import { getImageUrl } from '../../utils/api';
+import { getImageUrl, handleImageError } from '../../utils/api';
 
 const emptyForm = { name: '', description: '', type: 'perfume', category: '', featured: false, isActive: true, tags: '', variants: [{ ml: 3, price: '', stock: 0 }] };
 
@@ -100,7 +100,7 @@ export default function AdminProducts() {
                 {products.map(p => (
                   <tr key={p._id} style={{ borderBottom: '1px solid var(--black-border)' }}>
                     <td style={{ padding: '0.75rem 1rem' }}>
-                      <img src={getImageUrl(p.images?.[0])} alt={p.name} style={{ width: '44px', height: '44px', objectFit: 'cover', borderRadius: 'var(--radius)', border: '1px solid var(--black-border)' }} onError={e => e.target.src='https://via.placeholder.com/44?text=🌸'} />
+                      <img src={getImageUrl(p.images?.[0])} alt={p.name} style={{ width: '44px', height: '44px', objectFit: 'cover', borderRadius: 'var(--radius)', border: '1px solid var(--black-border)' }} onError={handleImageError} />
                     </td>
                     <td style={{ padding: '0.75rem 1rem', fontWeight: 500 }}>{p.name}</td>
                     <td style={{ padding: '0.75rem 1rem' }}><span className="badge badge-gold" style={{ textTransform: 'capitalize' }}>{p.type}</span></td>
@@ -205,7 +205,7 @@ export default function AdminProducts() {
                   <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
                     {existingImages.map(img => (
                       <div key={img} style={{ position: 'relative' }}>
-                        <img src={getImageUrl(img)} alt="" style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: 'var(--radius)', border: '1px solid var(--black-border)' }} />
+                        <img src={getImageUrl(img)} alt="" style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: 'var(--radius)', border: '1px solid var(--black-border)' }} onError={handleImageError} />
                         <button type="button" onClick={() => removeExistingImage(img)} style={{ position: 'absolute', top: '-6px', right: '-6px', width: '18px', height: '18px', borderRadius: '50%', background: 'var(--danger)', border: 'none', cursor: 'pointer', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px' }}>×</button>
                       </div>
                     ))}

@@ -34,7 +34,7 @@ export default function ContactUs() {
       </div>
 
       <div className="container" style={{ padding: '3rem 1.5rem' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'start' }}>
+        <div className="contact-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'start' }}>
           {/* Contact Form */}
           <div>
             <h2 style={{ fontFamily: 'var(--font-heading)', color: 'var(--gold)', marginBottom: '0.5rem', fontSize: '1.5rem' }}>Send Us a Message</h2>
@@ -81,28 +81,28 @@ export default function ContactUs() {
           <div>
             <h2 style={{ fontFamily: 'var(--font-heading)', color: 'var(--gold)', marginBottom: '2rem', fontSize: '1.5rem' }}>Get in Touch</h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginBottom: '2.5rem' }}>
-              {settings.storeEmail && (
+              {(() => { const email = settings.storeEmail || 'saliheenperfumes@gmail.com'; return (
                 <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
                   <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(201,168,76,0.1)', border: '1px solid var(--gold-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <FiMail size={18} color="var(--gold)" />
                   </div>
                   <div>
                     <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.2rem' }}>Email</p>
-                    <a href={`mailto:${settings.storeEmail}`} style={{ color: 'var(--text-primary)', textDecoration: 'none', fontSize: '0.95rem' }}>{settings.storeEmail}</a>
+                    <a href={`mailto:${email}`} style={{ color: 'var(--text-primary)', textDecoration: 'none', fontSize: '0.95rem' }}>{email}</a>
                   </div>
                 </div>
-              )}
-              {settings.storePhone && (
+              ); })()}
+              {(() => { const phone = settings.storePhone || '+91 8072826007'; return (
                 <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
                   <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(201,168,76,0.1)', border: '1px solid var(--gold-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <FiPhone size={18} color="var(--gold)" />
                   </div>
                   <div>
                     <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.2rem' }}>Phone</p>
-                    <a href={`tel:${settings.storePhone}`} style={{ color: 'var(--text-primary)', textDecoration: 'none', fontSize: '0.95rem' }}>{settings.storePhone}</a>
+                    <a href={`tel:${phone.replace(/\s/g, '')}`} style={{ color: 'var(--text-primary)', textDecoration: 'none', fontSize: '0.95rem' }}>{phone}</a>
                   </div>
                 </div>
-              )}
+              ); })()}
               {settings.socialLinks?.whatsapp && (
                 <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
                   <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(37,211,102,0.1)', border: '1px solid rgba(37,211,102,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -114,17 +114,17 @@ export default function ContactUs() {
                   </div>
                 </div>
               )}
-              {settings.storeAddress && (
+              {(() => { const address = settings.storeAddress || 'Saliheen Perfumes #2, Vincent Rd, near Masjidul Muslimeen, Fort, Coimbatore, Tamil Nadu 641001.'; return (
                 <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
                   <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(201,168,76,0.1)', border: '1px solid var(--gold-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <FiMapPin size={18} color="var(--gold)" />
                   </div>
                   <div>
                     <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.2rem' }}>Address</p>
-                    <p style={{ color: 'var(--text-primary)', fontSize: '0.95rem', lineHeight: 1.5 }}>{settings.storeAddress}</p>
+                    <p style={{ color: 'var(--text-primary)', fontSize: '0.95rem', lineHeight: 1.5 }}>{address}</p>
                   </div>
                 </div>
-              )}
+              ); })()}
             </div>
 
             {branches.length > 0 && (
@@ -150,6 +150,30 @@ export default function ContactUs() {
                 </div>
               </div>
             )}
+
+            <div style={{ marginTop: '1.75rem', display: 'flex', gap: '0.6rem', alignItems: 'flex-start', background: 'var(--black-card)', border: '1px solid var(--gold-dark)', borderRadius: 'var(--radius)', padding: '0.9rem 1rem' }}>
+              <FiClock size={16} color="var(--gold)" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                Our customer support team is available from <strong style={{ color: 'var(--text-primary)' }}>9 AM to 6 PM</strong>, Monday to Saturday. We are closed on public holidays.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Find Us on the Map */}
+        <div style={{ marginTop: '3rem' }}>
+          <h2 style={{ fontFamily: 'var(--font-heading)', color: 'var(--gold)', marginBottom: '1.25rem', fontSize: '1.5rem' }}>Find Us on the Map</h2>
+          <div style={{ height: '360px', borderRadius: 'var(--radius-lg)', overflow: 'hidden', border: '1px solid var(--black-border)' }}>
+            <iframe
+              title="Saliheen Perfumes Location"
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1157.6345153421153!2d76.96559120789108!3d10.991669091855398!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba8590046440a5d%3A0x8fa6299e9c37a341!2sSaliheen%20Perfumes%20%232!5e0!3m2!1sen!2sin!4v1742639568974!5m2!1sen!2sin"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
         </div>
       </div>

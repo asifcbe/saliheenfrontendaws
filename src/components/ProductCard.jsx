@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiShoppingBag, FiEye } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
-import { getImageUrl } from '../utils/api';
+import { getImageUrl, handleImageError } from '../utils/api';
 import { toast } from 'react-toastify';
 
 export default function ProductCard({ product }) {
@@ -28,7 +28,7 @@ export default function ProductCard({ product }) {
               position: 'absolute', inset: 0, width: '100%', height: '100%',
               objectFit: 'cover', transition: 'transform 0.5s ease'
             }}
-            onError={e => e.target.src = 'https://via.placeholder.com/300x360?text=🌸'}
+            onError={handleImageError}
             onMouseEnter={e => e.target.style.transform = 'scale(1.05)'}
             onMouseLeave={e => e.target.style.transform = 'scale(1)'}
           />
