@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import API from './utils/api';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import Navbar from './components/Navbar';
+import AmbientBackground from './components/AmbientBackground';
 import Footer from './components/Footer';
 import CartSidebar from './components/CartSidebar';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -35,6 +36,14 @@ import RefundCancellation from './pages/policies/RefundCancellation';
 import TermsConditions from './pages/policies/TermsConditions';
 import ContactUs from './pages/policies/ContactUs';
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
 function App() {
   useEffect(() => {
     API.get('/api/settings').then(({ data }) => {
@@ -48,6 +57,7 @@ function App() {
     <Router>
       <AuthProvider>
         <CartProvider>
+          <ScrollToTop />
           <Routes>
             <Route path="/admin" element={<ProtectedRoute adminOnly><AdminLayout /></ProtectedRoute>}>
               <Route index element={<AdminDashboard />} />
@@ -77,6 +87,7 @@ function MainLayout() {
 
   return (
     <>
+      <AmbientBackground />
       <Navbar />
       <CartSidebar />
       <Routes>

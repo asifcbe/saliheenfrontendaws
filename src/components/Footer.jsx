@@ -115,9 +115,14 @@ export default function Footer() {
           <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
             © {new Date().getFullYear()} {settings.storeName || 'Saliheen Perfumes'}. All rights reserved.
           </p>
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <img src="https://razorpay.com/favicon.png" alt="Razorpay" style={{ height: '20px', opacity: 0.6 }} />
-            <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>Secure Payments by Razorpay</span>
+          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              <img src="https://razorpay.com/favicon.png" alt="Razorpay" style={{ height: '20px', opacity: 0.6 }} />
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>Secure Payments by Razorpay</span>
+            </div>
+            <a href="https://thesolocompiler.com" target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', fontSize: '0.75rem', textDecoration: 'none' }}>
+              Powered by <span style={{ color: 'var(--gold)' }}>thesolocompiler.com</span>
+            </a>
           </div>
         </div>
       </div>

@@ -32,17 +32,17 @@ export default function ProductCard({ product }) {
             onMouseEnter={e => e.target.style.transform = 'scale(1.05)'}
             onMouseLeave={e => e.target.style.transform = 'scale(1)'}
           />
-          <div style={{
+          <div className="card-badges" style={{
             position: 'absolute', top: '0.75rem', left: '0.75rem',
             display: 'flex', gap: '0.4rem', flexWrap: 'wrap'
           }}>
             <span className="badge badge-gold" style={{ textTransform: 'capitalize' }}>{product.type}</span>
             {product.featured && <span className="badge" style={{ background: 'rgba(201,168,76,0.3)', color: 'var(--gold-bright)', border: '1px solid var(--gold)' }}>Featured</span>}
           </div>
-          <div style={{
+          <div className="card-eye-wrap" style={{
             position: 'absolute', top: '0.75rem', right: '0.75rem'
           }}>
-            <Link to={`/product/${product._id}`} style={{
+            <Link to={`/product/${product._id}`} className="card-eye-btn" style={{
               width: '36px', height: '36px', borderRadius: '50%',
               background: 'rgba(0,0,0,0.6)', border: '1px solid var(--black-border)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -91,13 +91,24 @@ export default function ProductCard({ product }) {
       </div>
 
       <style>{`
+        @media (max-width: 768px) {
+          .product-card .card-image { padding-top: 100% !important; }
+          .product-card h3 { font-size: 0.9rem !important; }
+          .product-card .card-body { padding: 0.75rem !important; }
+        }
         @media (max-width: 480px) {
-          .product-card .card-image { padding-top: 90% !important; }
-          .product-card { font-size: 0.82rem; }
-          .product-card h3 { font-size: 0.85rem !important; margin-bottom: 0.35rem !important; }
-          .product-card .card-body { padding: 0.65rem !important; }
-          .product-card .variant-btn { padding: 0.18rem 0.45rem !important; font-size: 0.7rem !important; }
-          .product-card .price { font-size: 0.95rem !important; }
+          .product-card .card-image { padding-top: 85% !important; }
+          .product-card { font-size: 0.78rem; }
+          .product-card h3 { font-size: 0.8rem !important; margin-bottom: 0.3rem !important; }
+          .product-card .card-body { padding: 0.55rem !important; }
+          .product-card .card-badges { top: 0.4rem !important; left: 0.4rem !important; gap: 0.25rem !important; }
+          .product-card .badge { padding: 0.15rem 0.4rem !important; font-size: 0.6rem !important; }
+          .product-card .card-eye-wrap { top: 0.4rem !important; right: 0.4rem !important; }
+          .product-card .card-eye-btn { width: 26px !important; height: 26px !important; }
+          .product-card .card-eye-btn svg { width: 12px !important; height: 12px !important; }
+          .product-card .variant-btn { padding: 0.15rem 0.4rem !important; font-size: 0.65rem !important; }
+          .product-card .price { font-size: 0.85rem !important; }
+          .product-card .btn-sm { padding: 0.3rem 0.55rem !important; font-size: 0.7rem !important; gap: 0.25rem !important; }
         }
       `}</style>
     </div>

@@ -20,7 +20,7 @@ export default function AdminSettings() {
   const [settings, setSettings] = useState({
     storeName: '', storeTagline: '', storeEmail: '', storePhone: '',
     storeAddress: '', codEnabled: true, razorpayKeyId: '', metaDescription: '',
-    logo: '', shippingCharge: 0, codCharge: 100, theme: 'midnight-gold',
+    logo: '', shippingChargeTN: 0, shippingChargeOther: 0, codChargeTN: 100, codChargeOther: 100, theme: 'midnight-gold',
     socialLinks: { instagram: '', facebook: '', whatsapp: '', youtube: '' }
   });
   const [logo, setLogo] = useState(null);
@@ -38,8 +38,10 @@ export default function AdminSettings() {
         razorpayKeyId: data.razorpayKeyId || '',
         metaDescription: data.metaDescription || '',
         logo: data.logo || '',
-        shippingCharge: data.shippingCharge ?? 0,
-        codCharge: data.codCharge ?? 100,
+        shippingChargeTN: data.shippingChargeTN ?? 0,
+        shippingChargeOther: data.shippingChargeOther ?? 0,
+        codChargeTN: data.codChargeTN ?? 100,
+        codChargeOther: data.codChargeOther ?? 100,
         theme: data.theme || 'midnight-gold',
         socialLinks: data.socialLinks || { instagram: '', facebook: '', whatsapp: '', youtube: '' }
       });
@@ -171,25 +173,47 @@ export default function AdminSettings() {
               <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>Update Razorpay Secret in <code style={{ color: 'var(--gold)', background: 'rgba(201,168,76,0.1)', padding: '1px 5px', borderRadius: '2px' }}>backend/.env</code></p>
             </div>
             <div className="form-group">
-              <label className="form-label">Shipping Charge — Online (₹)</label>
+              <label className="form-label">Shipping Charge — Tamil Nadu (₹)</label>
               <input
-                type="number" name="shippingCharge"
-                value={settings.shippingCharge} onChange={handleChange}
+                type="number" name="shippingChargeTN"
+                value={settings.shippingChargeTN} onChange={handleChange}
                 className="form-control" min="0" placeholder="0"
               />
               <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>
-                Applied to online-paid orders. Set to <strong style={{ color: 'var(--gold)' }}>0</strong> for free shipping
+                Online-paid orders delivering within Tamil Nadu. <strong style={{ color: 'var(--gold)' }}>0</strong> = free shipping
               </p>
             </div>
             <div className="form-group">
-              <label className="form-label">COD Charge (₹)</label>
+              <label className="form-label">Shipping Charge — Other States (₹)</label>
               <input
-                type="number" name="codCharge"
-                value={settings.codCharge} onChange={handleChange}
+                type="number" name="shippingChargeOther"
+                value={settings.shippingChargeOther} onChange={handleChange}
+                className="form-control" min="0" placeholder="0"
+              />
+              <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>
+                Online-paid orders delivering outside Tamil Nadu. <strong style={{ color: 'var(--gold)' }}>0</strong> = free shipping
+              </p>
+            </div>
+            <div className="form-group">
+              <label className="form-label">COD Charge — Tamil Nadu (₹)</label>
+              <input
+                type="number" name="codChargeTN"
+                value={settings.codChargeTN} onChange={handleChange}
                 className="form-control" min="0" placeholder="100"
               />
               <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>
-                Extra fee added to Cash on Delivery orders
+                Extra fee for Cash on Delivery within Tamil Nadu
+              </p>
+            </div>
+            <div className="form-group">
+              <label className="form-label">COD Charge — Other States (₹)</label>
+              <input
+                type="number" name="codChargeOther"
+                value={settings.codChargeOther} onChange={handleChange}
+                className="form-control" min="0" placeholder="100"
+              />
+              <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>
+                Extra fee for Cash on Delivery outside Tamil Nadu
               </p>
             </div>
             <div style={{ gridColumn: '1 / -1' }}>

@@ -54,7 +54,7 @@ export default function Shop() {
         <p>{total} {total === 1 ? 'product' : 'products'} available</p>
       </div>
 
-      <div className="container" style={{ padding: '2rem 1.5rem' }}>
+      <div className="container shop-body" style={{ padding: '2rem 1.5rem' }}>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '2rem', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             {['', 'perfume', 'attar'].map(t => (

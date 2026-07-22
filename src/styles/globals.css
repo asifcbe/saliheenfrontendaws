@@ -227,6 +227,45 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
 }
 
+/* ====== AMBIENT BACKGROUND — soft gold wisps drifting behind the whole app ====== */
+.ambient-wisps {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 5;
+}
+.ambient-wisps .wisp {
+  position: absolute;
+  bottom: -10%;
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--accent-rgb),0.5) 0%, rgba(var(--accent-rgb),0.14) 45%, transparent 72%);
+  filter: blur(6px);
+  opacity: 0;
+  animation: wispRise 9s ease-in infinite;
+}
+.ambient-wisps .wisp-1 { left: 4%;  width: 70px;  height: 70px;  animation-delay: 0s;    animation-duration: 13s; }
+.ambient-wisps .wisp-2 { left: 16%; width: 50px;  height: 50px;  animation-delay: 3.5s;  animation-duration: 11s; }
+.ambient-wisps .wisp-3 { left: 28%; width: 110px; height: 110px; animation-delay: 1.6s;  animation-duration: 15s; }
+.ambient-wisps .wisp-4 { left: 40%; width: 65px;  height: 65px;  animation-delay: 7s;    animation-duration: 12s; }
+.ambient-wisps .wisp-5 { left: 52%; width: 80px;  height: 80px;  animation-delay: 4.8s;  animation-duration: 14s; }
+.ambient-wisps .wisp-6 { left: 64%; width: 55px;  height: 55px;  animation-delay: 9.5s;  animation-duration: 11.5s; }
+.ambient-wisps .wisp-7 { left: 76%; width: 95px;  height: 95px;  animation-delay: 2.4s;  animation-duration: 16s; }
+.ambient-wisps .wisp-8 { left: 88%; width: 60px;  height: 60px;  animation-delay: 6.2s;  animation-duration: 12.5s; }
+.ambient-wisps .wisp-9 { left: 96%; width: 75px;  height: 75px;  animation-delay: 11s;   animation-duration: 13.5s; }
+@keyframes wispRise {
+  0%   { transform: translate(0, 0) scale(0.7); opacity: 0; }
+  12%  { opacity: 0.85; }
+  55%  { transform: translate(18px, -85px) scale(1.15); opacity: 0.4; }
+  100% { transform: translate(-14px, -170px) scale(1.5); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ambient-wisps .wisp { animation: none; opacity: 0; }
+}
+
 /* ====== SCROLLBAR ====== */
 ::-webkit-scrollbar { width:5px; height:5px; }
 ::-webkit-scrollbar-track { background:var(--black-rich); }
@@ -296,7 +335,7 @@ h1,h2,h3,h4,h5,h6 { font-family:var(--font-heading); color:var(--gold-pale); lin
 .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; }
 @media(max-width:1100px){ .grid-4{ grid-template-columns:repeat(3,1fr); } }
 @media(max-width:768px) { .grid-4,.grid-3{ grid-template-columns:repeat(2,1fr); } .section{ padding:3rem 0; } }
-@media(max-width:480px) { .grid-4,.grid-3,.grid-2{ grid-template-columns:1fr; } .container{ padding:0 1rem; } }
+@media(max-width:480px) { .grid-4,.grid-3,.grid-2{ grid-template-columns:repeat(2,1fr); gap:0.6rem; } .container{ padding:0 1rem; } .shop-body{ padding:1.25rem 1rem !important; } }
 
 /* ====== BUTTONS ====== */
 @keyframes shimmer {
@@ -462,9 +501,9 @@ textarea.form-control { resize:vertical; min-height:90px; line-height:1.7; }
 }
 .page-header p { color:var(--text-secondary); font-family:var(--font-accent); font-style:italic; font-size:1.05rem; position:relative; }
 @media (max-width: 480px) {
-  .page-header { padding: 3rem 0 2rem; }
-  .page-header h1 { font-size: 1.5rem; letter-spacing: 0.04em; }
-  .page-header p { font-size: 0.88rem; }
+  .page-header { padding: 2rem 0 1.25rem; }
+  .page-header h1 { font-size: 1.35rem; letter-spacing: 0.04em; margin-bottom: 0.3rem; }
+  .page-header p { font-size: 0.8rem; }
 }
 
 /* ====== ADMIN CARD SECTION ====== */
