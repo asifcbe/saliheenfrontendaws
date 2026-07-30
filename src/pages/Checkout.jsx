@@ -24,16 +24,20 @@ export default function Checkout() {
   const [couponMsg, setCouponMsg] = useState('');
   const [checkoutCoupons, setCheckoutCoupons] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState('razorpay');
-  const [settings, setSettings] = useState({ shippingChargeTN: 0, shippingChargeOther: 0, codChargeTN: 100, codChargeOther: 100 });
+  const [settings, setSettings] = useState({ shippingCharges: {}, shippingChargeDefault: 0, codCharges: {}, codChargeDefault: 100 });
   const [loading, setLoading] = useState(false);
   const [validatingCoupon, setValidatingCoupon] = useState(false);
 
   // Shipping mirrors the backend: COD adds the COD charge, online uses the base
-  // shipping charge (0 = free). Both vary by delivery state (Tamil Nadu vs other).
-  const isTamilNadu = form.state === 'Tamil Nadu';
-  const shippingCharge = paymentMethod === 'cod'
-    ? Number(isTamilNadu ? settings.codChargeTN : settings.codChargeOther) || 0
-    : Number(isTamilNadu ? settings.shippingChargeTN : settings.shippingChargeOther) || 0;
+  // shipping charge (0 = free). Both vary by delivery state, falling back to the
+  // configured default when the selected state has no explicit override.
+  const shippingChargeForMethod = (method) => {
+    const charges = method === 'cod' ? settings.codCharges : settings.shippingCharges;
+    const fallback = method === 'cod' ? settings.codChargeDefault : settings.shippingChargeDefault;
+    const override = charges?.[form.state];
+    return Number(override != null && override !== '' ? override : fallback) || 0;
+  };
+  const shippingCharge = shippingChargeForMethod(paymentMethod);
   const total = Math.max(subtotal - discount, 0) + shippingCharge;
 
   useEffect(() => {
@@ -188,7 +192,7 @@ export default function Checkout() {
                   <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer', flex: 1, minWidth: '180px', padding: '1rem', borderRadius: 'var(--radius)', border: `1px solid ${paymentMethod === 'razorpay' ? 'var(--gold)' : 'var(--black-border)'}`, background: paymentMethod === 'razorpay' ? 'rgba(201,168,76,0.08)' : 'var(--black-surface)' }}>
                     <input type="radio" value="razorpay" checked={paymentMethod === 'razorpay'} onChange={e => setPaymentMethod(e.target.value)} style={{ accentColor: 'var(--gold)' }} />
                     <div>
-                      <p style={{ color: 'var(--text-primary)', fontWeight: 500, fontSize: '0.9rem' }}>Razorpay {(Number(isTamilNadu ? settings.shippingChargeTN : settings.shippingChargeOther) || 0) === 0 && <span style={{ color: 'var(--success)', fontSize: '0.72rem' }}>· Free shipping</span>}</p>
+                      <p style={{ color: 'var(--text-primary)', fontWeight: 500, fontSize: '0.9rem' }}>Razorpay {shippingChargeForMethod('razorpay') === 0 && <span style={{ color: 'var(--success)', fontSize: '0.72rem' }}>· Free shipping</span>}</p>
                       <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>UPI, Card, Net Banking, Wallets</p>
                     </div>
                   </label>
@@ -196,7 +200,7 @@ export default function Checkout() {
                     <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer', flex: 1, minWidth: '180px', padding: '1rem', borderRadius: 'var(--radius)', border: `1px solid ${paymentMethod === 'cod' ? 'var(--gold)' : 'var(--black-border)'}`, background: paymentMethod === 'cod' ? 'rgba(201,168,76,0.08)' : 'var(--black-surface)' }}>
                       <input type="radio" value="cod" checked={paymentMethod === 'cod'} onChange={e => setPaymentMethod(e.target.value)} style={{ accentColor: 'var(--gold)' }} />
                       <div>
-                        <p style={{ color: 'var(--text-primary)', fontWeight: 500, fontSize: '0.9rem' }}>Cash on Delivery {(Number(isTamilNadu ? settings.codChargeTN : settings.codChargeOther) || 0) > 0 && <span style={{ color: 'var(--text-muted)', fontSize: '0.72rem' }}>· +₹{(Number(isTamilNadu ? settings.codChargeTN : settings.codChargeOther) || 0).toLocaleString()}</span>}</p>
+                        <p style={{ color: 'var(--text-primary)', fontWeight: 500, fontSize: '0.9rem' }}>Cash on Delivery {shippingChargeForMethod('cod') > 0 && <span style={{ color: 'var(--text-muted)', fontSize: '0.72rem' }}>· +₹{shippingChargeForMethod('cod').toLocaleString()}</span>}</p>
                         <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>Pay when you receive</p>
                       </div>
                     </label>

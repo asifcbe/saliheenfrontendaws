@@ -96,13 +96,13 @@ export default function Home() {
       ═══════════════════════════════════════ */}
       {landing?.carouselImages?.length > 0 ? (
         <>
-          {/* Image band — 30% of viewport height, framed to 60% width on non-mobile */}
+          {/* Image band — framed and centered, capped so it never balloons on ultra-wide screens */}
           <div style={{ background: 'var(--black)' }}>
-            <div className="hero-carousel" style={{ position: 'relative', width: '100%', maxWidth: '60%', margin: '0 auto', height: '30vh', minHeight: '220px', overflow: 'hidden' }}>
+            <div className="hero-carousel" style={{ position: 'relative', width: '100%', maxWidth: '900px', margin: '0 auto', height: '34vh', minHeight: '240px', maxHeight: '460px', overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.55)' }}>
               <Slider ref={sliderRef} {...carouselSettings}>
                 {landing.carouselImages.map((img, i) => (
                   <div key={i}>
-                    <div style={{ position: 'relative', height: '30vh', minHeight: '220px', overflow: 'hidden' }}>
+                    <div style={{ position: 'relative', height: '34vh', minHeight: '240px', maxHeight: '460px', overflow: 'hidden' }}>
                       <img
                         src={getImageUrl(img.url)} alt={img.alt || `Slide ${i + 1}`}
                         className={activeSlide === i ? 'ken-burns' : ''}
@@ -113,6 +113,7 @@ export default function Home() {
                   </div>
                 ))}
               </Slider>
+              <div className="hero-carousel-frame" aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', boxShadow: 'inset 0 0 0 1px rgba(var(--accent-rgb),0.25)' }} />
 
               {/* Slide index + custom line-segment navigation */}
               {landing.carouselImages.length > 1 && (
@@ -180,8 +181,12 @@ export default function Home() {
               <span className="wisp wisp-5" />
             </div>
 
-            {/* Left: the one little gag — the bottle sprays itself, delights in it, then plays it cool */}
-            <div className="mishap-col" style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1rem' }}>
+            {/* Content stays centered within the site's standard container so the
+                bottle and quote never drift apart on ultra-wide viewports */}
+            <div className="mishap-inner container" style={{ position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+
+            {/* The one little gag — the bottle sprays itself, delights in it, then plays it cool */}
+            <div className="mishap-col" style={{ position: 'relative', flex: '0 0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 0 1rem' }}>
               <div className="mishap-bottle" aria-hidden="true" style={{ position: 'relative' }}>
                 <svg width="72" height="86" viewBox="0 0 34 40" fill="none">
                   {/* Spritz cloud */}
@@ -229,10 +234,10 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right: rotating multilingual quotes about fragrance */}
-            <div className="mishap-col" style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 2rem' }}>
+            {/* Rotating multilingual quotes about fragrance, centered beneath the bottle */}
+            <div className="mishap-col mishap-col-quote" style={{ position: 'relative', flex: '0 0 auto', minWidth: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem 0 2rem' }}>
               <Reveal>
-                <div style={{ maxWidth: '420px', position: 'relative', minHeight: '110px', textAlign: 'center' }}>
+                <div style={{ maxWidth: '620px', margin: '0 auto', position: 'relative', minHeight: '110px', textAlign: 'center' }}>
                   {QUOTES.map((q, i) => (
                     <div key={i} style={{
                       position: i === 0 ? 'relative' : 'absolute', top: 0, left: 0, right: 0,
@@ -252,6 +257,7 @@ export default function Home() {
                   ))}
                 </div>
               </Reveal>
+            </div>
             </div>
           </div>
         </>
@@ -280,6 +286,17 @@ export default function Home() {
       {products.length > 0 && (
         <section style={{ padding: 'clamp(4rem,8vw,6rem) 0' }}>
           <div className="container">
+            <Reveal>
+              <div style={{ textAlign: 'center', marginBottom: 'clamp(2.5rem,5vw,3.5rem)' }}>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.72rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '0.75rem' }}>
+                  Curated Selection
+                </p>
+                <h2 style={{ fontFamily: 'var(--font-heading)', fontWeight: 400, fontSize: 'clamp(1.7rem,3.6vw,2.6rem)', color: 'var(--gold-pale)' }}>
+                  Signature Fragrances
+                </h2>
+                <div className="gold-divider" />
+              </div>
+            </Reveal>
             <div className="grid-4">
               {products.map((p, i) => (
                 <Reveal key={p._id} delay={(i % 4) * 0.08} style={{ height: '100%' }}>
@@ -519,11 +536,26 @@ export default function Home() {
           48%, 72%           { opacity: 1; }
         }
 
+        /* Mishap row content stays centered in the standard container (max 1300px)
+           so the bottle and quote stay centered and never drift on ultra-wide monitors. */
+        .mishap-inner { max-width: 900px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+        .mishap-col-quote { border-top: 1px solid var(--black-border); }
+
+        @media (min-width: 1440px) {
+          .hero-carousel { max-width: 960px !important; }
+        }
+
+        @media (max-width: 900px) {
+          .hero-carousel { max-width: 92% !important; }
+        }
+
+        @media (max-width: 768px) {
+          .mishap-row { min-height: auto !important; }
+        }
+
         @media (max-width: 640px) {
           .gallery-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .hero-carousel { max-width: 100% !important; }
-          .mishap-row { flex-direction: column !important; padding: 0 !important; }
-          .mishap-col { padding: 0 !important; }
         }
         @media (max-width: 560px) {
           .branch-row { flex-direction: column !important; gap: 0.75rem !important; }

@@ -3,6 +3,7 @@ import { FiSave, FiUpload, FiShoppingBag, FiPhone, FiShare2, FiCreditCard, FiIma
 import { toast } from 'react-toastify';
 import API from '../../utils/api';
 import { getImageUrl } from '../../utils/api';
+import { INDIAN_STATES } from '../../utils/indianStates';
 
 // Outside component — prevents focus-loss on re-render
 function Section({ icon: Icon, title, children }) {
@@ -20,7 +21,7 @@ export default function AdminSettings() {
   const [settings, setSettings] = useState({
     storeName: '', storeTagline: '', storeEmail: '', storePhone: '',
     storeAddress: '', codEnabled: true, razorpayKeyId: '', metaDescription: '',
-    logo: '', shippingChargeTN: 0, shippingChargeOther: 0, codChargeTN: 100, codChargeOther: 100, theme: 'midnight-gold',
+    logo: '', shippingCharges: {}, shippingChargeDefault: 0, codCharges: {}, codChargeDefault: 100, theme: 'midnight-gold',
     socialLinks: { instagram: '', facebook: '', whatsapp: '', youtube: '' }
   });
   const [logo, setLogo] = useState(null);
@@ -38,14 +39,23 @@ export default function AdminSettings() {
         razorpayKeyId: data.razorpayKeyId || '',
         metaDescription: data.metaDescription || '',
         logo: data.logo || '',
-        shippingChargeTN: data.shippingChargeTN ?? 0,
-        shippingChargeOther: data.shippingChargeOther ?? 0,
-        codChargeTN: data.codChargeTN ?? 100,
-        codChargeOther: data.codChargeOther ?? 100,
+        shippingCharges: data.shippingCharges || {},
+        shippingChargeDefault: data.shippingChargeDefault ?? 0,
+        codCharges: data.codCharges || {},
+        codChargeDefault: data.codChargeDefault ?? 100,
         theme: data.theme || 'midnight-gold',
         socialLinks: data.socialLinks || { instagram: '', facebook: '', whatsapp: '', youtube: '' }
       });
     }).catch(() => toast.error('Failed to load settings'));
+  }, []);
+
+  // Per-state charge maps need their own setter since handleChange only
+  // covers flat fields and the social_ prefix convention.
+  const handleStateChargeChange = useCallback((mapKey, state, value) => {
+    setSettings(prev => ({
+      ...prev,
+      [mapKey]: { ...prev[mapKey], [state]: value === '' ? undefined : value }
+    }));
   }, []);
 
   const handleChange = useCallback((e) => {
@@ -64,7 +74,7 @@ export default function AdminSettings() {
     try {
       const fd = new FormData();
       Object.entries(settings).forEach(([k, v]) => {
-        if (k === 'socialLinks') fd.append(k, JSON.stringify(v));
+        if (k === 'socialLinks' || k === 'shippingCharges' || k === 'codCharges') fd.append(k, JSON.stringify(v));
         else if (k !== 'logo') fd.append(k, v);
       });
       if (logo) fd.append('logo', logo);
@@ -173,68 +183,93 @@ export default function AdminSettings() {
               <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>Update Razorpay Secret in <code style={{ color: 'var(--gold)', background: 'rgba(201,168,76,0.1)', padding: '1px 5px', borderRadius: '2px' }}>backend/.env</code></p>
             </div>
             <div className="form-group">
-              <label className="form-label">Shipping Charge — Tamil Nadu (₹)</label>
+              <label className="form-label">Default Shipping Charge (₹)</label>
               <input
-                type="number" name="shippingChargeTN"
-                value={settings.shippingChargeTN} onChange={handleChange}
+                type="number" name="shippingChargeDefault"
+                value={settings.shippingChargeDefault} onChange={handleChange}
                 className="form-control" min="0" placeholder="0"
               />
               <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>
-                Online-paid orders delivering within Tamil Nadu. <strong style={{ color: 'var(--gold)' }}>0</strong> = free shipping
+                Used for online-paid orders in any state/UT below left blank. <strong style={{ color: 'var(--gold)' }}>0</strong> = free shipping
               </p>
             </div>
             <div className="form-group">
-              <label className="form-label">Shipping Charge — Other States (₹)</label>
+              <label className="form-label">Default COD Charge (₹)</label>
               <input
-                type="number" name="shippingChargeOther"
-                value={settings.shippingChargeOther} onChange={handleChange}
-                className="form-control" min="0" placeholder="0"
-              />
-              <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>
-                Online-paid orders delivering outside Tamil Nadu. <strong style={{ color: 'var(--gold)' }}>0</strong> = free shipping
-              </p>
-            </div>
-            <div className="form-group">
-              <label className="form-label">COD Charge — Tamil Nadu (₹)</label>
-              <input
-                type="number" name="codChargeTN"
-                value={settings.codChargeTN} onChange={handleChange}
+                type="number" name="codChargeDefault"
+                value={settings.codChargeDefault} onChange={handleChange}
                 className="form-control" min="0" placeholder="100"
               />
               <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>
-                Extra fee for Cash on Delivery within Tamil Nadu
+                Used for Cash on Delivery in any state/UT left blank below
               </p>
             </div>
-            <div className="form-group">
-              <label className="form-label">COD Charge — Other States (₹)</label>
-              <input
-                type="number" name="codChargeOther"
-                value={settings.codChargeOther} onChange={handleChange}
-                className="form-control" min="0" placeholder="100"
-              />
-              <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>
-                Extra fee for Cash on Delivery outside Tamil Nadu
-              </p>
+          </div>
+
+          <div style={{ marginTop: '1.5rem' }}>
+            <label className="form-label" style={{ marginBottom: '0.3rem', display: 'block' }}>Per-State Charges (₹)</label>
+            <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
+              Override the shipping / COD charge for a specific state or union territory. Leave a field blank to fall back to the defaults above.
+            </p>
+            <div style={{
+              maxHeight: '420px', overflowY: 'auto', border: '1px solid var(--black-border)',
+              borderRadius: 'var(--radius)', padding: '0.25rem 0.75rem'
+            }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
+                <thead>
+                  <tr style={{ position: 'sticky', top: 0, background: 'var(--black-card)', zIndex: 1 }}>
+                    <th style={{ textAlign: 'left', padding: '0.6rem 0.4rem', color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.75rem' }}>State / UT</th>
+                    <th style={{ textAlign: 'left', padding: '0.6rem 0.4rem', color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.75rem' }}>Shipping (₹)</th>
+                    <th style={{ textAlign: 'left', padding: '0.6rem 0.4rem', color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.75rem' }}>COD (₹)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {INDIAN_STATES.map(state => (
+                    <tr key={state} style={{ borderTop: '1px solid var(--black-border)' }}>
+                      <td style={{ padding: '0.4rem', color: 'var(--text-secondary)' }}>{state}</td>
+                      <td style={{ padding: '0.4rem' }}>
+                        <input
+                          type="number" min="0"
+                          placeholder={String(settings.shippingChargeDefault ?? 0)}
+                          value={settings.shippingCharges?.[state] ?? ''}
+                          onChange={e => handleStateChargeChange('shippingCharges', state, e.target.value)}
+                          className="form-control" style={{ padding: '0.4rem 0.6rem' }}
+                        />
+                      </td>
+                      <td style={{ padding: '0.4rem' }}>
+                        <input
+                          type="number" min="0"
+                          placeholder={String(settings.codChargeDefault ?? 100)}
+                          value={settings.codCharges?.[state] ?? ''}
+                          onChange={e => handleStateChargeChange('codCharges', state, e.target.value)}
+                          className="form-control" style={{ padding: '0.4rem 0.6rem' }}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-            <div style={{ gridColumn: '1 / -1' }}>
-              <label className="form-label">Cash on Delivery</label>
-              <label style={{
-                display: 'flex', alignItems: 'center', gap: '0.75rem',
-                cursor: 'pointer', padding: '0.85rem 1rem',
-                borderRadius: 'var(--radius-lg)',
-                background: settings.codEnabled ? 'rgba(201,168,76,0.08)' : 'var(--black-surface)',
-                border: `1px solid ${settings.codEnabled ? 'var(--gold-dark)' : 'var(--black-border)'}`,
-                transition: 'var(--transition)'
-              }}>
-                <input type="checkbox" name="codEnabled" checked={settings.codEnabled} onChange={handleChange} style={{ accentColor: 'var(--gold)', width: '18px', height: '18px', cursor: 'pointer' }} />
-                <div>
-                  <p style={{ fontWeight: 600, fontSize: '0.88rem', color: settings.codEnabled ? 'var(--gold)' : 'var(--text-secondary)' }}>
-                    {settings.codEnabled ? 'COD Enabled' : 'COD Disabled'}
-                  </p>
-                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Allow customers to pay on delivery</p>
-                </div>
-              </label>
-            </div>
+          </div>
+
+          <div style={{ marginTop: '1.5rem' }}>
+            <label className="form-label">Cash on Delivery</label>
+            <label style={{
+              display: 'flex', alignItems: 'center', gap: '0.75rem',
+              cursor: 'pointer', padding: '0.85rem 1rem',
+              borderRadius: 'var(--radius-lg)',
+              background: settings.codEnabled ? 'rgba(201,168,76,0.08)' : 'var(--black-surface)',
+              border: `1px solid ${settings.codEnabled ? 'var(--gold-dark)' : 'var(--black-border)'}`,
+              transition: 'var(--transition)'
+            }}>
+              <input type="checkbox" name="codEnabled" checked={settings.codEnabled} onChange={handleChange} style={{ accentColor: 'var(--gold)', width: '18px', height: '18px', cursor: 'pointer' }} />
+              <div>
+                <p style={{ fontWeight: 600, fontSize: '0.88rem', color: settings.codEnabled ? 'var(--gold)' : 'var(--text-secondary)' }}>
+                  {settings.codEnabled ? 'COD Enabled' : 'COD Disabled'}
+                </p>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Allow customers to pay on delivery</p>
+              </div>
+            </label>
           </div>
         </Section>
 
